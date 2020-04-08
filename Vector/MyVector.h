@@ -19,7 +19,7 @@ public:
 	MyVector(const MyVector& copy);
 	MyVector& operator=(const MyVector& copy);
 
-	~MyVector();
+	//~MyVector();
 
 	// для умненьких — реализовать конструктор и оператор для перемещения
 
@@ -59,7 +59,8 @@ public:
 	// изменить размер
 	// если новый размер больше текущего, то новые элементы забиваются дефолтными значениями
 	// если меньше - обрезаем вектор
-	void resize(const size_t size, const ValueType = 0.0);
+	void resize(const size_t size, const ValueType value);
+	void equal();
 
 	// очистка вектора, без изменения capacity
 	void clear();
