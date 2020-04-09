@@ -12,10 +12,28 @@ using ValueType = double;
 
 class MyVector
 {
+	class Iterator
+	{
+		ValueType* cur;
+	public:
+		Iterator(ValueType* first) : cur(first)
+		{}
+		ValueType& operator+ (int n) { return *(cur + n); }
+		ValueType& operator- (int n) { return *(cur - n); }
+
+		ValueType& operator++(int) { return *cur++; }
+		ValueType & operator-- (int) { return *cur--; }
+		ValueType & operator++ () { return *++cur; }
+		ValueType & operator-- () { return *--cur; }
+
+		bool operator!=(const Iterator& it) { return cur != it.cur; }
+		bool operator==(const Iterator& it) { return cur == it.cur; }
+		ValueType& operator* () { return *cur; }
+	};
 public:
 	MyVector(size_t size = 0, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 1.5f);
 	MyVector(size_t size, ValueType value, ResizeStrategy = ResizeStrategy::Multiplicative, float coef = 1.5f);
-	
+
 	MyVector(const MyVector& copy);
 	MyVector& operator=(const MyVector& copy);
 
@@ -37,7 +55,7 @@ public:
 	// вставить,
 	// должен работать за O(n)
 	void insert(const size_t i, const ValueType& value);	// версия для одного значения
-	void insert(const size_t i, const MyVector& value);		// версия для вектора
+	void insert(const size_t idx, const MyVector& value);		// версия для вектора
 
 	// удалить с конца,
 	// должен работать за amort(O(1))
@@ -51,7 +69,7 @@ public:
 	// должен работать за O(n)
 	// если isBegin == true, найти индекс первого элемента, равного value, иначе последнего
 	// если искомого элемента нет, вернуть -1
-	long long int find(const ValueType& value, bool isBegin = true) const;	
+	long long int find(const ValueType& value, bool isBegin = true) const;
 
 	// зарезервировать память (принудительно задать capacity)
 	void reserve(const size_t capacity);
@@ -63,9 +81,13 @@ public:
 
 	// очистка вектора, без изменения capacity
 	void clear();
+
+	Iterator begin() { return _data; }
+	Iterator end() {return _data + _size;}
 private:
 	ValueType* _data;
 	size_t _size;
 	size_t _capacity;
+	float _coef;
 };
 
