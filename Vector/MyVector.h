@@ -6,9 +6,19 @@ enum class ResizeStrategy {
 	Multiplicative
 };
 
+//стратегия сортировки
+enum class SortedStrategy {
+	Top, 
+	Bot
+};
+
+
 // тип значений в векторе
 // потом будет заменен на шаблон
 using ValueType = double;
+
+
+
 
 class MyVector
 {
@@ -84,10 +94,15 @@ public:
 
 	Iterator begin() { return _data; }
 	Iterator end() {return _data + _size;}
+
+	MyVector sortedSquares(const MyVector& vec, SortedStrategy strategy);
+	
+	
 private:
 	ValueType* _data;
 	size_t _size;
 	size_t _capacity;
 	float _coef;
 };
+
 

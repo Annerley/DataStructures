@@ -1,5 +1,6 @@
 #include "MyVector.h"
 #include <stdexcept>
+#include <cmath>
 
 MyVector::MyVector(size_t size, ResizeStrategy strategy, float coef)
 {
@@ -68,7 +69,7 @@ void MyVector::pushBack(const ValueType& value)
 	{
 		reserve(_size + 1);
 	}
-	_data[_size + 1] = value;
+	_data[_size] = value;
 	_size++;
 }
 
@@ -192,5 +193,41 @@ void MyVector::clear()
 	{
 		_data[i] = 0;
 	}
+}
+
+MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
+{
+	MyVector squares(vec);
+	
+	int right = _size-1;
+	int left = 0;
+	int i;
+	if (strategy == SortedStrategy::Top) i = 0;
+	else if (strategy == SortedStrategy::Bot) i = _size-1;
+	while (left != right)
+	{
+		if (abs(vec[left]) > abs(vec[right]))
+		{
+			squares._data[i] = vec[left] * vec[left];
+			left++;
+		}
+		else if (abs(vec[left]) < abs(vec[right]))
+		{
+			squares._data[i] = vec[right] * vec[right];
+			right--;
+		}
+		else
+		{
+			squares._data[i] = vec[right] * vec[right];
+			if (strategy == SortedStrategy::Top) i++;
+			else if (strategy == SortedStrategy::Bot) i--;
+			squares._data[i] = vec[left] * vec[left];
+			left++;
+			right--;
+		}
+		if (strategy == SortedStrategy::Top) i++;
+		else if (strategy == SortedStrategy::Bot) i--;
+	}
+	return squares;
 }
 
