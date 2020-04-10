@@ -1,6 +1,8 @@
 #include "MyVector.h"
 #include <stdexcept>
 #include <cmath>
+#include <stdlib.h>
+#include <algorithm>
 
 MyVector::MyVector(size_t size, ResizeStrategy strategy, float coef)
 {
@@ -33,6 +35,25 @@ MyVector::MyVector(const MyVector& copy)
 	{
 		_data[i] = copy._data[i];
 	}
+}
+
+MyVector& MyVector::operator=(const MyVector& copy)
+{
+
+	if (this == &copy)
+		return *this;
+
+	_size = copy._size;
+	_capacity = copy._capacity;
+	_coef = copy._coef;
+
+	delete _data;
+	_data = new ValueType[_capacity];
+	for (size_t i = 0; i < _size; ++i) {
+		_data[i] = copy._data[i];
+	}
+
+	return *this;
 }
 
 MyVector::~MyVector()
@@ -204,17 +225,24 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 	int i;
 	if (strategy == SortedStrategy::Top) i = 0;
 	else if (strategy == SortedStrategy::Bot) i = _size-1;
+	//else throw
 	while (left != right)
 	{
 		if (abs(vec[left]) > abs(vec[right]))
 		{
 			squares._data[i] = vec[left] * vec[left];
 			left++;
+			if (strategy == SortedStrategy::Top) i++;
+			else if (strategy == SortedStrategy::Bot) i--;
+			continue;
 		}
 		else if (abs(vec[left]) < abs(vec[right]))
 		{
 			squares._data[i] = vec[right] * vec[right];
 			right--;
+			if (strategy == SortedStrategy::Top) i++;
+			else if (strategy == SortedStrategy::Bot) i--;
+			continue;
 		}
 		else
 		{
@@ -224,10 +252,13 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 			squares._data[i] = vec[left] * vec[left];
 			left++;
 			right--;
+			if (strategy == SortedStrategy::Top) i++;
+			else if (strategy == SortedStrategy::Bot) i--;
 		}
-		if (strategy == SortedStrategy::Top) i++;
-		else if (strategy == SortedStrategy::Bot) i--;
+		
 	}
+	squares._data[i] = vec[left];
+	
 	return squares;
 }
 

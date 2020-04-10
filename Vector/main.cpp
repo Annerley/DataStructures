@@ -19,7 +19,7 @@ int main()
 		{
 		cout << Vector[i] << " ";
 		}
-	Vector.sortedSquares(Vector, SortedStrategy::Top);
+	Vector = Vector.sortedSquares(Vector, SortedStrategy::Top);
 	for (size_t i = 0; i < Vector.size(); i++)
 	{
 		cout << Vector[i] << " ";
