@@ -102,8 +102,13 @@ void MyVector::insert(const size_t i, const ValueType& value)
 	{
 		reserve(_size * _coef);
 	}
-	
-	for (size_t j = _size; j >= i; j--)
+	if (i == 0)
+	{
+		for (int j = _size; j > i; j--) _data[j] = _data[j - 1];
+		_data[0] = value;
+		return;
+	}
+	for (int j = _size; j >= i; j--)
 	{
 		if (j == i) _data[j] = value;
 		else _data[j] = _data[j - 1];
