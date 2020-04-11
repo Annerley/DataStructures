@@ -6,20 +6,22 @@
 
 MyVector::MyVector(size_t size, ResizeStrategy strategy, float coef)
 {
-	if (strategy == ResizeStrategy::Multiplicative) _capacity = (1.0 * size) * coef;
-	else if (strategy == ResizeStrategy::Additive) _capacity = (size *coef);
+	if (strategy == ResizeStrategy::Multiplicative) _capacity = (1.0 * size) * coef +1;
+	else if (strategy == ResizeStrategy::Additive) _capacity = (size  + coef)+1;
 	_coef = coef;
 	_size = size;
+	_strategy = strategy;
 	_data = new ValueType[_capacity];
 }
 
 MyVector::MyVector(size_t size, ValueType value, ResizeStrategy strategy, float coef)
 {
-	if (strategy == ResizeStrategy::Multiplicative) _capacity = (1.0 * size) * coef;
-	else if (strategy == ResizeStrategy::Additive) _capacity = (size * coef);
-	coef = _coef;
+	if (strategy == ResizeStrategy::Multiplicative) _capacity = (1.0 * size) * coef + 1;
+	else if (strategy == ResizeStrategy::Additive) _capacity = (size * coef)+1;
+	_coef = coef;
 	_size = size;
-	_data = new ValueType[_capacity];
+	_strategy = strategy;
+	_data = new ValueType[_capacity ];
 	for (size_t i = 0; i < _size; i++)
 	{
 		_data[i] = value;
@@ -42,12 +44,12 @@ MyVector& MyVector::operator=(const MyVector& copy)
 
 	if (this == &copy)
 		return *this;
-
+	if(_data == nullptr) return *this;
 	_size = copy._size;
 	_capacity = copy._capacity;
 	_coef = copy._coef;
 
-	delete _data;
+	delete[] _data;
 	_data = new ValueType[_capacity];
 	for (size_t i = 0; i < _size; ++i) {
 		_data[i] = copy._data[i];
@@ -79,8 +81,8 @@ float MyVector::loadFactor()
 
 ValueType& MyVector::operator[](const size_t i) const
 {
-	if (i >= 0 && i < _size) return _data[i];
-	//throw std::length_error("Incorrect index"); 
+	if (i >= 0 && i <= _size) return _data[i];
+	//throw std::out_of_range("Incorrect index"); 
 		
 }
 
@@ -88,7 +90,7 @@ void MyVector::pushBack(const ValueType& value)
 {
 	if (_size >= _capacity)
 	{
-		reserve(_size + 1);
+		reserve(_size * _coef);
 	}
 	_data[_size] = value;
 	_size++;
@@ -98,7 +100,7 @@ void MyVector::insert(const size_t i, const ValueType& value)
 {
 	if (_size >= _capacity)
 	{
-		reserve(_size + 1);
+		reserve(_size * _coef);
 	}
 	
 	for (size_t j = _size; j >= i; j--)
@@ -113,15 +115,15 @@ void MyVector::insert(const size_t i, const ValueType& value)
 void MyVector::insert(const size_t idx, const MyVector& value)
 {
 	
-	int sdvig = value._size;
-	if (_capacity < _size + sdvig) reserve(+_size + sdvig + 1);
-	for (size_t i = _size + sdvig; i > idx + sdvig; i--)
+	int offset = value._size;
+	if (_capacity < _size + offset) reserve(+_size + offset + 1);
+	for (size_t i = _size + offset; i > idx + offset; i--)
 	{
-		_data[i] = _data[i - sdvig];
+		_data[i] = _data[i - offset];
 	}
 	int j = 0;
-	_size += sdvig;
-	for (size_t i = idx; i < idx+sdvig; i++)
+	_size += offset;
+	for (size_t i = idx; i < idx+offset; i++)
 	{
 		_data[i] = value._data[j];
 	}
@@ -169,9 +171,11 @@ long long int MyVector::find(const ValueType& value, bool isBegin) const
 
 void MyVector::reserve(const size_t capacity)
 {
+	//if(_capacity<_size) throw  std::out_of_range("Incorrect capacity"); 
 	MyVector Buf(*this);
 	delete[] _data;
-	_data = new ValueType[_capacity];
+	_data = new ValueType[capacity];
+
 	for (size_t i = 0; i < Buf.size(); i++)
 	{
 		_data[i] = Buf._data[i];
@@ -196,7 +200,7 @@ void MyVector::resize(const size_t size, const ValueType value)
 	}
 	else if (size < _size)
 	{
-		MyVector(Buf);
+		MyVector Buf(*this);
 		delete[] _data;
 		_data = new ValueType[size];
 		_size = size;
@@ -225,7 +229,7 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 	int i;
 	if (strategy == SortedStrategy::Top) i = 0;
 	else if (strategy == SortedStrategy::Bot) i = _size-1;
-	//else throw
+	//else throw 
 	while (left != right)
 	{
 		if (abs(vec[left]) > abs(vec[right]))

@@ -103,6 +103,7 @@ private:
 	size_t _size;
 	size_t _capacity;
 	float _coef;
+	ResizeStrategy _strategy;
 };
 
 
