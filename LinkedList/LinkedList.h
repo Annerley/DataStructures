@@ -1,5 +1,6 @@
 #pragma once
-
+#include <cassert>
+	
 // потом поменяем на шаблоны
 using ValueType = double;
 

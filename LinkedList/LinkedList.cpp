@@ -160,40 +160,70 @@ void LinkedList::pushFront(const ValueType& value)
 
 void LinkedList::remove(const size_t pos)
 {
+	//if(pos>_size && pos<0 ) throw std::out_of_range("Incorrect index");
+	if (pos == 0) removeFront();
+	else
+	{
+		Node* tmp = _head;
+		for (size_t i = 0; i < pos - 1; i++)
+		{
+			tmp = tmp->next;
+		}
+		tmp->removeNext();
+		_size--;
+	}
+
 }
 
 void LinkedList::removeNextNode(Node* node)
 {
+
 }
 
-long long int LinkedList::findIndex(const ValueType& value) const
+void LinkedList::removeFront()
 {
-	return 0;
+	if (_size == 1)
+	{
+		delete _head;
+		return;
+	}
+	if (_head == nullptr)
+	{
+		//throw out_of_range
+	}
+	
+	Node* Buf = _head->next;
+	delete _head;
+	_head = Buf;
+	_size--;
+
 }
 
-LinkedList::Node* LinkedList::findNode(const ValueType& value) const
+void LinkedList::removeBack()
 {
-	return nullptr;
+	Node* Buf = _head;
+	for (size_t i = 0; i < _size; i++)
+	{
+		Buf = _head->next;
+	}
+	delete Buf;
+	_size--;
 }
 
-void LinkedList::reverse()
-{
-}
 
-LinkedList LinkedList::reverse() const
-{
-	return LinkedList();
-}
 
-LinkedList LinkedList::getReverseList() const
-{
-	return LinkedList();
-}
 
-size_t LinkedList::size() const
-{
-	return _size;
-}
+
+
+
+
+
+
+
+
+
+
+
 
 void LinkedList::forceNodeDelete(Node* node)
 {
