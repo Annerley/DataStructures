@@ -177,7 +177,7 @@ void LinkedList::remove(const size_t pos)
 
 void LinkedList::removeNextNode(Node* node)
 {
-
+	node->removeNext();
 }
 
 void LinkedList::removeFront()
@@ -208,6 +208,53 @@ void LinkedList::removeBack()
 	}
 	delete Buf;
 	_size--;
+}
+
+long long int LinkedList::findIndex(const ValueType& value) const
+{
+	Node* Buf = this-> _head;
+	for (size_t i = 0; i < _size; i++)
+	{
+		if (Buf->value == value) return i;
+		Buf = Buf->next;
+	}
+	return -1;
+}
+
+LinkedList::Node* LinkedList::findNode(const ValueType& value) const
+{
+	Node* Buf = this->_head;
+	for (size_t i = 0; i < _size; i++)
+	{
+		if (Buf->value == value) return Buf;
+		Buf = Buf->next;
+	}
+	return nullptr;
+}
+
+void LinkedList::reverse()
+{
+	if (_head == nullptr) return;
+	struct Node* curr, * next, * prev = nullptr;
+	curr = _head;
+	while (curr)
+	{
+		next = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = next;
+	}
+	_head = prev;
+}
+
+LinkedList LinkedList::reverse() const
+{
+
+	LinkedList* reversed = new LinkedList;
+	*reversed = *this;
+	reversed->reverse();
+
+	return *reversed;
 }
 
 
