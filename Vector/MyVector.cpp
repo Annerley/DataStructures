@@ -161,7 +161,7 @@ void MyVector::erase(const size_t i, const size_t len)
 
 long long int MyVector::find(const ValueType& value, bool isBegin) const
 {
-	ValueType tmp=-1;
+	int tmp=-1;
 	for (size_t i = 0; i < _size; i++)
 	{
 		if (_data[i] == value)
@@ -174,7 +174,7 @@ long long int MyVector::find(const ValueType& value, bool isBegin) const
 	return tmp;
 }
 
-void MyVector::reserve(const size_t capacity)
+void MyVector::reserve(const size_t capacity, float _coef, ResizeStrategy _strategy)
 {
 	//if(_capacity<_size) throw  std::out_of_range("Incorrect capacity"); 
 	MyVector Buf(*this);
