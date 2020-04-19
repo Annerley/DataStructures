@@ -2,26 +2,21 @@
 
 void ListStack::push(const ValueType& value)
 {
-	if (_size == 0) {
-		pushFront(value);
-		return;
-	}
-	insert(_size, value);
+	reverse();
+	pushFront(value);
 }
 
 void ListStack::pop()
 {
-	removeBack();
+	reverse();
+	removeFront();
 }
 
-ValueType& ListStack::top()
-{
-	return getNode(_size)->value;
-}
 
 const ValueType& ListStack::top() const
 {
-	return getNode(_size)->value;
+	reverse();
+	getNode(0);
 }
 
 bool ListStack::isEmpty() const
