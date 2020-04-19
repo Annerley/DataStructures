@@ -6,7 +6,7 @@
 
 MyVector::MyVector(size_t size, ResizeStrategy strategy, float coef)
 {
-	if (strategy == ResizeStrategy::Multiplicative) _capacity = (1.0 * size) * coef +1;
+	if (strategy == ResizeStrategy::Multiplicative) _capacity = (1.0 * size) * coef + 1;
 	else if (strategy == ResizeStrategy::Additive) _capacity = (size  + coef)+1;
 	_coef = coef;
 	_size = size;
@@ -174,7 +174,7 @@ long long int MyVector::find(const ValueType& value, bool isBegin) const
 	return tmp;
 }
 
-void MyVector::reserve(const size_t capacity, float _coef, ResizeStrategy _strategy)
+void MyVector::reserve(const size_t capacity)
 {
 	//if(_capacity<_size) throw  std::out_of_range("Incorrect capacity"); 
 	MyVector Buf(*this);
@@ -269,5 +269,15 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 	squares._data[i] = vec[left];
 	
 	return squares;
+}
+
+ValueType MyVector::front()
+{
+	return _data[0];
+}
+
+ValueType MyVector::back()
+{
+	return _data[_size];
 }
 

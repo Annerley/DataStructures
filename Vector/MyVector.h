@@ -96,6 +96,9 @@ public:
 	Iterator end() {return _data + _size;}
 
 	MyVector sortedSquares(const MyVector& vec, SortedStrategy strategy);
+
+	ValueType front();
+	ValueType back();
 	
 	
 protected:
