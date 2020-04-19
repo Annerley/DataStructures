@@ -98,7 +98,7 @@ public:
 	MyVector sortedSquares(const MyVector& vec, SortedStrategy strategy);
 	
 	
-private:
+protected:
 	ValueType* _data;
 	size_t _size;
 	size_t _capacity;
