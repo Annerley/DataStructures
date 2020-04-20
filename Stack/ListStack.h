@@ -8,11 +8,12 @@
 // множественное наследование можно заменить на композицию
 class ListStack : public StackImplementation, public LinkedList
 {
+public:
+	ListStack();
+
 	void push(const ValueType& value) ;
 	
 	void pop();
-	
-	 ValueType& top();
 
 	const ValueType& top() const;
 	

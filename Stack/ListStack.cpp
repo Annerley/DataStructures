@@ -1,5 +1,11 @@
 #include "ListStack.h"
 
+
+ListStack::ListStack()
+{
+	
+}
+
 void ListStack::push(const ValueType& value)
 {
 	reverse();
@@ -16,7 +22,7 @@ void ListStack::pop()
 const ValueType& ListStack::top() const
 {
 	reverse();
-	getNode(0);
+	return getNode(0) -> value ;
 }
 
 bool ListStack::isEmpty() const
