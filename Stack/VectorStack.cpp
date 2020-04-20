@@ -1,5 +1,7 @@
 #include "VectorStack.h"
 
+
+
 void VectorStack::push(const ValueType& value)
 {
 	if (_size + 1 >= _capacity) reserve(_capacity * _coef);
@@ -11,14 +13,10 @@ void VectorStack::pop()
 	_size--;
 }
 
-ValueType& VectorStack::top()
-{
-	return _data[_size];
-}
 
 const ValueType& VectorStack::top() const
 {
-	return _data[_size];
+	return back();
 }
 
 bool VectorStack::isEmpty() const

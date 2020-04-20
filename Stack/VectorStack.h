@@ -11,11 +11,11 @@ using namespace std;
 class VectorStack : public StackImplementation, public MyVector
 {
 public:
+	VectorStack();
+
 	void push(const ValueType& value);
 
 	void pop();
-
-	ValueType& top();
 
 	const ValueType& top() const;
 
