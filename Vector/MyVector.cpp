@@ -82,7 +82,7 @@ float MyVector::loadFactor()
 ValueType& MyVector::operator[](const size_t i) const
 {
 	if (i >= 0 && i <= _size) return _data[i];
-	//throw std::out_of_range("Incorrect index"); 
+	throw std::out_of_range("Incorrect index"); 
 		
 }
 
@@ -98,6 +98,7 @@ void MyVector::pushBack(const ValueType& value)
 
 void MyVector::insert(const size_t i, const ValueType& value)
 {
+	if (i < 0 || i > _size) throw std::out_of_range("Incorrect index");
 	if (_size >= _capacity)
 	{
 		reserve(_size * _coef);
@@ -119,7 +120,7 @@ void MyVector::insert(const size_t i, const ValueType& value)
 
 void MyVector::insert(const size_t idx, const MyVector& value)
 {
-	
+	if (idx < 0 || idx > _size) throw std::out_of_range("Incorrect index");
 	int offset = value._size;
 	if (_capacity < _size + offset) reserve(+_size + offset + 1);
 	for (size_t i = _size + offset; i > idx + offset; i--)
@@ -142,6 +143,7 @@ void MyVector::popBack()
 
 void MyVector::erase(const size_t i)
 {
+	if(i < 0 || i > _size) throw std::out_of_range("Incorrect index");
 	for (size_t j = i; j < _size-1; j++)
 	{
 		_data[j] = _data[j + 1];
@@ -152,6 +154,7 @@ void MyVector::erase(const size_t i)
 
 void MyVector::erase(const size_t i, const size_t len)
 {
+	if (i < 0 || i > _size) throw std::out_of_range("Incorrect index");
 	for (size_t j = i; j < _size; j++)
 	{
 		_data[j] = _data[j + len];
@@ -176,7 +179,7 @@ long long int MyVector::find(const ValueType& value, bool isBegin) const
 
 void MyVector::reserve(const size_t capacity)
 {
-	//if(_capacity<_size) throw  std::out_of_range("Incorrect capacity"); 
+	if(_capacity<_size) throw  std::out_of_range("Incorrect capacity"); 
 	MyVector Buf(*this);
 	delete[] _data;
 	_data = new ValueType[capacity];
@@ -225,16 +228,16 @@ void MyVector::clear()
 	}
 }
 
-MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
+MyVector MyVector:: sortedSquares(const MyVector& vec, SortedStrategy strategy)
 {
 	MyVector squares(vec);
 	
-	int right = _size-1;
+	int right = squares.size()-1;
 	int left = 0;
 	int i;
 	if (strategy == SortedStrategy::Top) i = 0;
-	else if (strategy == SortedStrategy::Bot) i = _size-1;
-	//else throw 
+	else if (strategy == SortedStrategy::Bot) i = squares.size()-1;
+	else throw std::invalid_argument("Incorrect ResizeStrategy");
 	while (left != right)
 	{
 		if (abs(vec[left]) > abs(vec[right]))
@@ -271,13 +274,14 @@ MyVector MyVector::sortedSquares(const MyVector& vec, SortedStrategy strategy)
 	return squares;
 }
 
-ValueType MyVector::front()
+
+const ValueType& MyVector::front() const
 {
 	return _data[0];
 }
 
-ValueType MyVector::back()
+const ValueType& MyVector::back() const
 {
-	return _data[_size];
+	return _data[_size - 1];
 }
 

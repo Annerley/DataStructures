@@ -95,10 +95,10 @@ public:
 	Iterator begin() { return _data; }
 	Iterator end() {return _data + _size;}
 
-	MyVector sortedSquares(const MyVector& vec, SortedStrategy strategy);
+	static MyVector sortedSquares(const MyVector& vec, SortedStrategy strategy);
 
-	ValueType front();
-	ValueType back();
+	const ValueType& front() const;
+	const ValueType& back() const;
 	
 	
 protected:
