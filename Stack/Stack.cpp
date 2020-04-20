@@ -54,10 +54,6 @@ void Stack::pop()
 	_pimpl->pop();
 }
 
-ValueType& Stack::top()
-{
-	return _pimpl->top();
-}
 
 const ValueType& Stack::top() const
 {
