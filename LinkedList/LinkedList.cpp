@@ -257,6 +257,20 @@ LinkedList LinkedList::reverse() const
 	return *reversed;
 }
 
+LinkedList LinkedList::getReverseList() const
+{
+	LinkedList* tmp = new LinkedList;
+	*tmp = *this;
+	tmp->reverse();
+
+	return *tmp;
+}
+
+size_t LinkedList::size() const
+{
+	return _size;
+}
+
 
 
 
