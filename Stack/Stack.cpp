@@ -28,7 +28,7 @@ Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer
 	switch (container)
 	{
 	case StackContainer::List: {
-		_pimpl = new ListStack;
+		_pimpl = new ListStack();
 		break;
 	}
 	case StackContainer::Vector: {

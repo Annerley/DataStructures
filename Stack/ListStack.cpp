@@ -3,7 +3,7 @@
 
 ListStack::ListStack()
 {
-	
+	LinkedList();
 }
 
 void ListStack::push(const ValueType& value)
