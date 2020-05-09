@@ -47,8 +47,8 @@ LinkedList::LinkedList(const LinkedList& copyList)
 	Node* currentCopyNode = copyList._head;
 
 	while (currentCopyNode->next) {
-		currentNode->next = new Node(currentCopyNode->value);
 		currentCopyNode = currentCopyNode->next;
+		currentNode->next = new Node(currentCopyNode->value);
 		currentNode = currentNode->next;
 	}
 }
@@ -60,9 +60,18 @@ LinkedList& LinkedList::operator=(const LinkedList& copyList)
 	}
 	LinkedList bufList(copyList);
 	this->_size = bufList._size;
-	this->_head = bufList._head;
+	
+	this->_head = new Node(copyList._head->value);
+	Node* currentNode = this->_head;
+	Node* currentCopyNode = bufList._head;
 
-	return *this;
+	while (currentCopyNode->next) {
+		currentCopyNode = currentCopyNode->next;
+		currentNode->next = new Node(currentCopyNode->value);
+		currentNode = currentNode->next;
+	}
+
+	return bufList;
 }
 
 LinkedList::LinkedList(LinkedList&& moveList) noexcept
@@ -201,12 +210,9 @@ void LinkedList::removeFront()
 
 void LinkedList::removeBack()
 {
-	Node* Buf = _head;
-	for (size_t i = 0; i < _size; i++)
-	{
-		Buf = _head->next;
-	}
-	delete Buf;
+	if (_size > 1)
+		getNode(_size - 2)->removeNext();
+	else removeFront();
 	_size--;
 }
 
