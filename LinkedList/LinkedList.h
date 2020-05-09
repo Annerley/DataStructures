@@ -64,7 +64,7 @@ public:
 	LinkedList getReverseList() const;	// чтобы неконстантный объект тоже мог возвращать новый развернутый список
 
 	size_t size() const;
-private:
+protected:
 	Node*	_head;
 	size_t	_size;
 
