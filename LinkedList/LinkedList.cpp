@@ -1,5 +1,5 @@
 #include "LinkedList.h"
-
+#include <stdexcept>
 #include <cassert>
 
 LinkedList::Node::Node(const ValueType& value, Node* next)
@@ -25,6 +25,7 @@ void LinkedList::Node::removeNext()
 	Node* newNext = removeNode->next;
 	delete removeNode;
 	this->next = newNext;
+	
 }
 
 LinkedList::LinkedList()
@@ -70,8 +71,9 @@ LinkedList& LinkedList::operator=(const LinkedList& copyList)
 		currentNode->next = new Node(currentCopyNode->value);
 		currentNode = currentNode->next;
 	}
-
-	return bufList;
+	_size = copyList._size;
+	
+	return *this;
 }
 
 LinkedList::LinkedList(LinkedList&& moveList) noexcept
@@ -150,6 +152,7 @@ void LinkedList::insert(const size_t pos, const ValueType& value)
 void LinkedList::insertAfterNode(Node* node, const ValueType& value)
 {
 	node->insertNext(value);
+	_size++;
 }
 
 void LinkedList::pushBack(const ValueType& value)
@@ -169,7 +172,7 @@ void LinkedList::pushFront(const ValueType& value)
 
 void LinkedList::remove(const size_t pos)
 {
-	//if(pos>_size && pos<0 ) throw std::out_of_range("Incorrect index");
+	if(pos>_size && pos<0 ) throw std::out_of_range("Incorrect index");
 	if (pos == 0) removeFront();
 	else
 	{
@@ -187,6 +190,7 @@ void LinkedList::remove(const size_t pos)
 void LinkedList::removeNextNode(Node* node)
 {
 	node->removeNext();
+	_size--;
 }
 
 void LinkedList::removeFront()
@@ -194,11 +198,14 @@ void LinkedList::removeFront()
 	if (_size == 1)
 	{
 		delete _head;
+		_head = nullptr;
+		_size = 0;
+
 		return;
 	}
 	if (_head == nullptr)
 	{
-		//throw out_of_range
+		throw std::out_of_range("Incorrect deletion");
 	}
 	
 	Node* Buf = _head->next;
@@ -213,7 +220,7 @@ void LinkedList::removeBack()
 	if (_size > 1)
 		getNode(_size - 2)->removeNext();
 	else removeFront();
-	_size--;
+	
 }
 
 long long int LinkedList::findIndex(const ValueType& value) const
