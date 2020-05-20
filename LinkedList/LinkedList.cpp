@@ -62,7 +62,7 @@ LinkedList& LinkedList::operator=(const LinkedList& copyList)
 	LinkedList bufList(copyList);
 	this->_size = bufList._size;
 	
-	this->_head = new Node(copyList._head->value);
+	this->_head = new Node(copyList._head	->value);
 	Node* currentNode = this->_head;
 	Node* currentCopyNode = bufList._head;
 
@@ -218,7 +218,10 @@ void LinkedList::removeFront()
 void LinkedList::removeBack()
 {
 	if (_size > 1)
+	{
 		getNode(_size - 2)->removeNext();
+		_size--;
+	}
 	else removeFront();
 	
 }
