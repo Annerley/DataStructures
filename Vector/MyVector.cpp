@@ -89,8 +89,9 @@ ValueType& MyVector::operator[](const size_t i) const
 void MyVector::pushBack(const ValueType& value)
 {
 	if (_size >= _capacity)
-	{
-		reserve(_size * _coef);
+	{	
+		if (_size == 1) reserve(2);
+		else reserve(_size * _coef);
 	}
 	_data[_size] = value;
 	_size++;
