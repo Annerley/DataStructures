@@ -4,13 +4,13 @@
 
 VectorStack::VectorStack()
 {
-	MyVector();
+	
 }
 
 void VectorStack::push(const ValueType& value)
 {
-	if (_size + 1 >= _capacity) reserve(_capacity * _coef);
-	_data[_size + 1] = value;
+	pushBack(value);
+	
 }
 
 void VectorStack::pop()

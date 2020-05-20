@@ -24,6 +24,7 @@ Stack::Stack(StackContainer container)
 }
 
 Stack::Stack(const ValueType* valueArray, const size_t arraySize, StackContainer container)
+	: _containerType(container)
 {
 	switch (container)
 	{
