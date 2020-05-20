@@ -8,19 +8,18 @@ ListStack::ListStack()
 
 void ListStack::push(const ValueType& value)
 {
-	pushBack(value);
+	pushFront(value);
 }
 
 void ListStack::pop()
 {
 	
-	removeBack();
+	removeFront();
 }
 
 
 const ValueType& ListStack::top() const
 {
-	reverse();
 	return getNode(0) -> value;
 }
 
