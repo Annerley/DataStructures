@@ -1,5 +1,5 @@
 #include "LinkedList.h"
-#include <stdexcept>
+
 #include <cassert>
 
 LinkedList::Node::Node(const ValueType& value, Node* next)
@@ -23,10 +23,8 @@ void LinkedList::Node::removeNext()
 {
 	Node* removeNode = this->next;
 	Node* newNext = removeNode->next;
-	if(newNext == nullptr) throw std::out_of_range("nonexistent node");
 	delete removeNode;
 	this->next = newNext;
-	
 }
 
 LinkedList::LinkedList()
@@ -63,7 +61,7 @@ LinkedList& LinkedList::operator=(const LinkedList& copyList)
 	LinkedList bufList(copyList);
 	this->_size = bufList._size;
 	
-	this->_head = new Node(copyList._head	->value);
+	this->_head = new Node(copyList._head->value);
 	Node* currentNode = this->_head;
 	Node* currentCopyNode = bufList._head;
 
@@ -72,9 +70,8 @@ LinkedList& LinkedList::operator=(const LinkedList& copyList)
 		currentNode->next = new Node(currentCopyNode->value);
 		currentNode = currentNode->next;
 	}
-	_size = copyList._size;
-	
-	return *this;
+
+	return bufList;
 }
 
 LinkedList::LinkedList(LinkedList&& moveList) noexcept
@@ -153,7 +150,6 @@ void LinkedList::insert(const size_t pos, const ValueType& value)
 void LinkedList::insertAfterNode(Node* node, const ValueType& value)
 {
 	node->insertNext(value);
-	_size++;
 }
 
 void LinkedList::pushBack(const ValueType& value)
@@ -173,7 +169,7 @@ void LinkedList::pushFront(const ValueType& value)
 
 void LinkedList::remove(const size_t pos)
 {
-	if(pos>_size && pos<0 ) throw std::out_of_range("Incorrect index");
+	//if(pos>_size && pos<0 ) throw std::out_of_range("Incorrect index");
 	if (pos == 0) removeFront();
 	else
 	{
@@ -191,7 +187,6 @@ void LinkedList::remove(const size_t pos)
 void LinkedList::removeNextNode(Node* node)
 {
 	node->removeNext();
-	_size--;
 }
 
 void LinkedList::removeFront()
@@ -199,14 +194,11 @@ void LinkedList::removeFront()
 	if (_size == 1)
 	{
 		delete _head;
-		_head = nullptr;
-		_size = 0;
-
 		return;
 	}
 	if (_head == nullptr)
 	{
-		throw std::out_of_range("Incorrect deletion");
+		//throw out_of_range
 	}
 	
 	Node* Buf = _head->next;
@@ -219,12 +211,9 @@ void LinkedList::removeFront()
 void LinkedList::removeBack()
 {
 	if (_size > 1)
-	{
 		getNode(_size - 2)->removeNext();
-		_size--;
-	}
 	else removeFront();
-	
+	_size--;
 }
 
 long long int LinkedList::findIndex(const ValueType& value) const
