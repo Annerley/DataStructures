@@ -23,6 +23,7 @@ void LinkedList::Node::removeNext()
 {
 	Node* removeNode = this->next;
 	Node* newNext = removeNode->next;
+	if(newNext == nullptr) throw std::out_of_range("nonexistent node");
 	delete removeNode;
 	this->next = newNext;
 	
