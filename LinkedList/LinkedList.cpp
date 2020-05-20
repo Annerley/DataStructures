@@ -70,8 +70,14 @@ LinkedList& LinkedList::operator=(const LinkedList& copyList)
 		currentNode->next = new Node(currentCopyNode->value);
 		currentNode = currentNode->next;
 	}
+<<<<<<< HEAD
+	_size = copyList._size;
+
+	return *this;
+=======
 
 	return bufList;
+>>>>>>> eae6cc9a3915e1dbfb47a6816dc73e2a3b1341f0
 }
 
 LinkedList::LinkedList(LinkedList&& moveList) noexcept
@@ -194,6 +200,11 @@ void LinkedList::removeFront()
 	if (_size == 1)
 	{
 		delete _head;
+<<<<<<< HEAD
+		_head = nullptr;
+		_size = 0;
+=======
+>>>>>>> eae6cc9a3915e1dbfb47a6816dc73e2a3b1341f0
 		return;
 	}
 	if (_head == nullptr)
@@ -211,9 +222,18 @@ void LinkedList::removeFront()
 void LinkedList::removeBack()
 {
 	if (_size > 1)
+<<<<<<< HEAD
+		{
+			getNode(_size - 2)->removeNext();
+			_size--;
+		}
+	else removeFront();
+
+=======
 		getNode(_size - 2)->removeNext();
 	else removeFront();
 	_size--;
+>>>>>>> eae6cc9a3915e1dbfb47a6816dc73e2a3b1341f0
 }
 
 long long int LinkedList::findIndex(const ValueType& value) const
