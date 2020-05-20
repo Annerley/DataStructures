@@ -10,7 +10,6 @@ VectorStack::VectorStack()
 void VectorStack::push(const ValueType& value)
 {
 	pushBack(value);
-	
 }
 
 void VectorStack::pop()

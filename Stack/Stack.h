@@ -37,8 +37,8 @@ public:
 	void push(const ValueType& value);
 	// удаление с хвоста
 	void pop();
-	// посмотреть элемент в хвосте
 
+	// посмотреть элемент в хвосте
 	const ValueType& top() const;
 	// проверка на пустоту
 	bool isEmpty() const;
